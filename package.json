@@ -1,0 +1,33 @@
+{
+  "name": "authentication2fa-ts",
+  "version": "1.0.0",
+  "description": "The objective of this repository is to build a two-factor login and authentication system, aiming to protect the systems and the entire surrounding ecosystem.",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.ts",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yanrodrigues205/Authentication2FA-TS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yanrodrigues205/Authentication2FA-TS/issues"
+  },
+  "homepage": "https://github.com/yanrodrigues205/Authentication2FA-TS#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.26",
+    "nodemon": "^3.1.0",
+    "typescript": "^5.4.2"
+  },
+  "dependencies": {
+    "@types/dotenv": "^8.2.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3"
+  }
+}
