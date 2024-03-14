@@ -1,8 +1,8 @@
 import express from 'express';
 import * as dotenv from 'dotenv';
 import { routes } from './routes';
-import * as fs from 'fs'
-
+import * as fs from 'fs';
+import database from './data-source';
 export default class Server
 {
     private port: number;
@@ -28,13 +28,24 @@ export default class Server
         else
         {
             throw new Error("Please, create a dotenv file to store secret keys!");
-            return;
         }
+    }
+
+    private async connectionDatabase()
+    {
+        database.initialize()
+        .then( () => {
+            console.log("conexão com typeorm feita com sucesso!");
+        })
+        .catch( (err) => {
+            console.log("erro de conexão com typeorm! err =>" + err)
+        })
     }
 
     async __init__()
     {
         this.verifyPort();
+        this.connectionDatabase();
         this.app = express();
         this.app.use(routes);
 
