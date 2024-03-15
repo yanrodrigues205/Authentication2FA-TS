@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  ts-node-docker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./src:/home/node/ts/app/src
+      - ./nodemon.json:/home/node/ts/app/nodemon.json
+    expose:
+      - '4000'
+    ports:
+      - '4000:4000'
+    command: sh -c "npm install -g nodemon ts-node && npm run start"
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: DONT_SCOPE23$%v
+  
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
