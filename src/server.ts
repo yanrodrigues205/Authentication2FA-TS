@@ -2,7 +2,7 @@ import express from 'express';
 import * as dotenv from 'dotenv';
 import { routes } from './routes';
 import * as fs from 'fs';
-import database from './data-source';
+import database from './db/data-source';
 export default class Server
 {
     private port: number;
@@ -33,12 +33,12 @@ export default class Server
 
     private async connectionDatabase()
     {
-        database.initialize()
+        return database.initialize()
         .then( () => {
             console.log("conexão com typeorm feita com sucesso!");
         })
-        .catch( (err) => {
-            console.log("erro de conexão com typeorm! err =>" + err)
+        .catch( async (err: any) => {
+            console.log("erro de conexão inicial, tentando reconectar... err =>" + err);
         })
     }
 
@@ -50,8 +50,7 @@ export default class Server
         this.app.use(routes);
 
         this.app.listen(this.port, () => {
-            console.log(`Server listening on port => '${this.port}'`);
-            console.log(this.message);
+            console.log(`Server listening on port => '${this.port}', Message: '${this.message}'`);
         });
     }
 }
