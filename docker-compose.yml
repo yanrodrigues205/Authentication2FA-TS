@@ -9,8 +9,6 @@ services:
       MYSQL_DATABASE: app
     ports:
       - "3306:3306"
-    volumes:
-      - ./src/db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   adminer:
     image: adminer
@@ -24,9 +22,6 @@ services:
       dockerfile: Dockerfile
       target: base
     restart: on-failure
-    volumes:
-      - ./src:/home/node/ts/app/src
-      - ./nodemon.json:/home/node/ts/app/nodemon.json
     expose:
       - '4000'
     ports:

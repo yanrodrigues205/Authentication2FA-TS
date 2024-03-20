@@ -4,8 +4,8 @@
   "description": "The objective of this repository is to build a two-factor login and authentication system, aiming to protect the systems and the entire surrounding ecosystem.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.ts",
-    "build": "tsc"
+    "start": "nodemon --exec ts-node index.ts",
+    "typeorm": "typeorm-ts-node-esm -d ./data-source.ts"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "mysql": "^2.18.1",
     "nodemailer": "^6.9.12",
     "reflect-metadata": "^0.2.1",
+    "ts-node": "^10.9.2",
     "typeorm": "^0.3.20"
   }
 }
