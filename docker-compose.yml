@@ -1,11 +1,29 @@
 version: '3.7'
-
 services:
+  database:
+    image: mysql:latest
+    restart: on-failure
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: 56c46fad85a799276c99793d4543a330
+      MYSQL_DATABASE: app
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./src/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  adminer:
+    image: adminer
+    restart: on-failure
+    ports:
+      - 8080:8080
+
   ts-node-docker:
     build:
       context: .
       dockerfile: Dockerfile
       target: base
+    restart: on-failure
     volumes:
       - ./src:/home/node/ts/app/src
       - ./nodemon.json:/home/node/ts/app/nodemon.json
@@ -13,16 +31,14 @@ services:
       - '4000'
     ports:
       - '4000:4000'
-    command: sh -c "npm install -g nodemon ts-node && npm run start"
-
-  db:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
-    environment:
-      MYSQL_ROOT_PASSWORD: DONT_SCOPE23$%v
-  
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+    depends_on:
+      - database
+    links:
+      - database
+    command: >
+      sh -c "
+          ls;
+          npm install -g nodemon mysql ts-node;
+          wait-for-it database:3306 -- ./node_modules/.bin/typeorm -d ./src/db/data-source.ts -- migration:run;
+          npm run start;
+      "
